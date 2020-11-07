@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News API Demo</title>
+    <style>
+        form {
+            display: flex;
+        }
+        form > div {
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Ana Haberler</h1>
+
+    <form>
+        <div>
+            <label for="ulke">Ülke: </label>
+            <select id="ulke">
+                <option value="tr">Türkiye</option>
+                <option value="us">Amerika Birleşik Devletleri</option>
+                <option value="gb">İngiltere</option>
+                <option value="ru">Rusya</option>
+            </select>
+        </div>
+        <div>
+            <label for="kategori">Kategori: </label>
+            <select id="kategori">
+                <option value="general">Genel</option>
+                <option value="business">İş</option>
+                <option value="entertainment">Eğlence</option>
+                <option value="health">Sağlık</option>
+                <option value="science">Bilim</option>
+                <option value="sports">Spor</option>
+                <option value="technology">Teknoloji</option>
+            </select>
+        </div>
+        <div>
+            <button id="listele" type="button">Listele</button>
+        </div>
+    </form>
+
+    <div>
+        <p><em>İstek URL: <span id="url"></span></em></p>
+        <p><em>Toplam bulunan sonuç: <span id="sonucAdet">0</span></em></p>
+    </div>
+
+    <div id="haberler"></div>
+
+    <script src="jquery-3.5.1.min.js"></script>
+    <script>
+        // buraya newsapi.org api anahtarınızı giriniz..
+        var apiKey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+
+        $("#listele").click(function () {
+            var country = $("#ulke").val();
+            var category = $("#kategori").val();
+            var url = "https://newsapi.org/v2/top-headlines?country="
+                + country + "&category="
+                + category + "&apiKey=" + apiKey;
+
+            $("#url").text(url);
+
+            $.get(url, function (data) {
+                console.log(data);
+                $("#sonucAdet").text(data.totalResults);
+
+                $("#haberler").html("");
+                for (var i in data.articles) {
+                    var haber = data.articles[i];
+
+                    var div = "<div>"
+                        + '<img src="' + haber.urlToImage + '" width="200">'
+                        + '<h3><a href="' + haber.url + '">' + haber.title + '</a></h3>'
+                        + '<p>' + haber.description + '</p>'
+                        + '<hr />'
+                        + "</div>";
+
+                    $("#haberler").append(div);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
