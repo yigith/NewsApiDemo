@@ -20,6 +20,10 @@
 
     <form>
         <div>
+            <label for="apiKey">News API Key: </label>
+            <input type="text" id="apiKey" placeholder="News Api Key">
+        </div>
+        <div>
             <label for="ulke">Ülke: </label>
             <select id="ulke">
                 <option value="tr">Türkiye</option>
@@ -54,15 +58,12 @@
 
     <script src="jquery-3.5.1.min.js"></script>
     <script>
-        // buraya newsapi.org api anahtarınızı giriniz..
-        var apiKey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-
         $("#listele").click(function () {
             var country = $("#ulke").val();
             var category = $("#kategori").val();
             var url = "https://newsapi.org/v2/top-headlines?country="
                 + country + "&category="
-                + category + "&apiKey=" + apiKey;
+                + category + "&apiKey=" + $("#apiKey").val();
 
             $("#url").text(url);
 
